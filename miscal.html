@@ -1,0 +1,107 @@
+<?PHP
+    $showalert = false;
+    $method = $_SERVER['REQUEST_METHOD'];
+    if ($method == 'POST') {
+        $comments = $_POST['comments'];
+        $sql = "INSERT INTO `comments` (`com_id`, `com_content`, `thr_id`, `com_by`, `com_time`) VALUES (, '$comments', '1', '0', 'current_timestamp())    ;";
+        $result = mysqli_query($connection, $sql);
+        $showalert = true;
+
+        if ($showalert) {
+            
+            echo ' 
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+              <path d="M7.818 12.854a.5.5 0 0 1-.637-.769l2.097-2.829a.5.5 0 0 1 .769.638l-2.097 2.829a.5.5 0 0 1-.132.131.5.5 0 0 1-.1.026zm-3.018-6.472a.5.5 0 0 1 .648-.761l1.399 1.04 3.859-5.211a.5.5 0 1 1 .767.641l-4.537 6.14a.5.5 0 0 1-.648.104L4.8 7.648l-.002-.003a.5.5 0 0 1-.002-.003zm8.64 3.608a.5.5 0 0 0-.708-.708L8 11.293 6.146 9.439a.5.5 0 1 0-.708.708L7.293 12l-2.854 2.854a.5.5 0 0 0 .708.708L8 12.707l1.854 1.854a.5.5 0 0 0 .708-.708L8.707 12l2.853-2.854z"/>
+            </svg>
+            Your thread has been successfully created!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+        }
+
+    }
+    ?>
+
+      <!-- comment section  -->
+    <?php
+    if(isset($_SESSION['loggedin'])&& ($_SESSION['loggedin']==true)){
+
+
+echo '  <div class="container">
+        <form action="'. $_SERVER['REQUEST_URI'] .'" method="post">
+            <div class="container">
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Enter Your Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+                </div>
+                <label for="com" class="form-label">Type Your Comment</label>
+                <textarea class="form-control" id="com" name="com" rows="3" required></textarea>
+                <br>
+                <button type="submit" class="btn btn-success">Comment</button>
+            </div>
+        </form>
+    </div>
+    </div>';
+
+    }else{
+
+        echo '    <div class="alert alert-danger" role="alert">
+            Sign Up For Start A Conversation
+          </div>';
+        }
+
+    ?>;
+
+
+
+
+    <?php
+if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == true)) {
+    echo ' 
+    <div class="container">
+        <form action="'. $_SERVER['REQUEST_URI'] .'" method="post">
+            <div class="container">
+
+                <label for="com" class="form-label">Type Your Comment</label>
+                <textarea class="form-control" id="com" name="com" rows="3" required></textarea>
+                <br>
+               
+                <input type="hidden" name="sno" value="'.$_SESSION["sno"].'" >
+                    
+                    <button type="submit" class="btn btn-success">Post Comment</button>
+            </div> ';
+                } else {
+                    echo '    
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                    Sign Up To Start A Conversation
+                  </div>
+                    ';
+
+                }
+                ?>
+
+
+
+
+
+
+<!-- logout alert -->
+
+
+                <?php
+session_start();
+
+if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
+    // User is logged in
+} else {
+    // User is logged out
+    echo '<script>alert("You Are Logged Out")</script>';
+    session_destroy();
+    // Destroy the session
+}
+?>
+ ?>
+
+
